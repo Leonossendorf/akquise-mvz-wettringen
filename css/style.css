@@ -246,8 +246,9 @@ input:focus-visible, textarea:focus-visible, select:focus-visible { border-color
 
 /* Tabellen */
 table { border-collapse: collapse; width: 100%; max-width: 640px; margin: 0 0 1.2rem; background: var(--weiss); border: 1px solid var(--linie); border-radius: var(--radius); overflow: hidden; }
-th, td { text-align: left; padding: 0.65em 0.9em; border-bottom: 1px solid var(--linie); vertical-align: top; white-space: nowrap; }
-td .small { white-space: normal; display: block; }
+th, td { text-align: left; padding: 0.65em 0.9em; border-bottom: 1px solid var(--linie); vertical-align: top; }
+#zeiten-tabelle td { white-space: nowrap; }
+#zeiten-tabelle td .small { white-space: normal; display: block; }
 th { background: var(--greige-hell); font-weight: 650; }
 tr:last-child td { border-bottom: 0; }
 tr.heute td, tr.heute th { background: var(--rot-hell); }
@@ -288,3 +289,83 @@ footer .entwurf-hinweis { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px
 
 /* Druck */
 @media print { .entwurf, .topbar, .nav-toggle, .site-nav, .aktionen, .btn, footer .spalten { display: none !important; } body { background: #fff; } }
+
+/* ===== Hero: das Kreuz aus Bild, rotem Balken (Titel) und grauem Balken (heute) ===== */
+.hero2 { padding: 1.5rem 0 2rem; overflow: hidden; }
+.hero-grid { display: grid; grid-template-columns: 1.1fr 1fr 0.9fr; grid-template-rows: auto auto; gap: 0; align-items: start; }
+.hero-foto { grid-column: 1 / 3; grid-row: 1; margin: 0; }
+.hero-foto img { border-radius: 40px; box-shadow: 0 16px 40px rgba(43,43,42,0.14); }
+.hero-rot { grid-column: 1 / 3; grid-row: 2; margin: -4.5rem -3.5rem 0 2.5rem; position: relative; z-index: 2; background: var(--rot); color: #fff; border-radius: 40px; padding: 2rem 2.4rem 2.2rem; box-shadow: 0 16px 40px rgba(183,44,70,0.25); }
+.hero-rot .ueberzeile { color: #fff; opacity: 0.85; }
+.hero-rot h1 { color: #fff; font-size: clamp(2rem, 1.4rem + 2.4vw, 3.3rem); margin-bottom: 0.4em; }
+.hero-rot h1 em { font-style: italic; font-weight: 400; }
+.hero-rot .lead { color: #fff; opacity: 0.94; margin: 0; }
+.hero-grau { grid-column: 3; grid-row: 1 / 3; margin-left: 1.5rem; background: var(--greige); border-radius: 40px; padding: 1.6rem 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 0.8rem; }
+.hero-grau .status { margin: 0; border-color: transparent; }
+.hero-grau .felder { grid-template-columns: 1fr; gap: 0.6rem; margin: 0; }
+.hero-grau .feld { border-color: transparent; }
+.hero-grau h2 { font-size: 0.85rem; font-family: var(--sans); font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-leise); margin: 0; }
+@media (max-width: 980px) {
+  .hero-grid { grid-template-columns: 1fr; }
+  .hero-foto { grid-column: 1; grid-row: 1; }
+  .hero-rot { grid-column: 1; grid-row: 2; margin: -2.5rem 0.5rem 0 0.5rem; padding: 1.5rem 1.4rem 1.6rem; border-radius: 28px; }
+  .hero-foto img { border-radius: 28px; }
+  .hero-grau { grid-column: 1; grid-row: 3; margin: 1rem 0 0; border-radius: 28px; padding: 1.2rem 1rem; }
+}
+@media (max-width: 480px) { .hero-rot { margin-left: 0; margin-right: 0; } }
+
+/* ===== Ruhige Animationen ===== */
+.btn, .feld, .karte, .balken, .person img, .meldung, .chips button, .site-nav a { transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease; }
+.btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(43,43,42,0.15); }
+.karte:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(43,43,42,0.09); }
+.meldung:hover { box-shadow: 0 8px 20px rgba(43,43,42,0.08); }
+.person img { transition: transform 0.35s ease, box-shadow 0.35s ease; }
+.person:hover img { transform: translateY(-3px); box-shadow: 0 10px 22px rgba(43,43,42,0.14); }
+html.js .reveal { opacity: 0; transform: translateY(16px); }
+html.js .reveal.in { opacity: 1; transform: none; transition: opacity 0.55s ease, transform 0.55s ease; }
+html.js .reveal.in .karten > .karte, html.js .reveal.in .personen > .person, html.js .reveal.in .schritt { animation: aufblenden 0.5s ease both; }
+html.js .reveal.in .karten > .karte:nth-child(2), html.js .reveal.in .personen > .person:nth-child(2) { animation-delay: 0.07s; }
+html.js .reveal.in .karten > .karte:nth-child(3), html.js .reveal.in .personen > .person:nth-child(3) { animation-delay: 0.14s; }
+html.js .reveal.in .karten > .karte:nth-child(4), html.js .reveal.in .personen > .person:nth-child(4) { animation-delay: 0.21s; }
+html.js .reveal.in .karten > .karte:nth-child(5), html.js .reveal.in .personen > .person:nth-child(5) { animation-delay: 0.28s; }
+html.js .reveal.in .karten > .karte:nth-child(6), html.js .reveal.in .personen > .person:nth-child(6) { animation-delay: 0.35s; }
+@keyframes aufblenden { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+html.js .hero-foto { animation: hero-foto 0.7s ease both; }
+html.js .hero-rot { animation: hero-links 0.6s ease 0.15s both; }
+html.js .hero-grau { animation: hero-rechts 0.6s ease 0.3s both; }
+@keyframes hero-foto { from { opacity: 0; transform: scale(1.015); } to { opacity: 1; transform: none; } }
+@keyframes hero-links { from { opacity: 0; transform: translateX(-18px); } to { opacity: 1; transform: none; } }
+@keyframes hero-rechts { from { opacity: 0; transform: translateX(18px); } to { opacity: 1; transform: none; } }
+html.js .kreuz .balken { opacity: 0; }
+html.js .kreuz.in .balken { animation: aufblenden 0.5s ease both; }
+html.js .kreuz.in .balken.oben { animation-name: von-oben; }
+html.js .kreuz.in .balken.unten { animation-name: von-unten; animation-delay: 0.1s; }
+html.js .kreuz.in .balken.links { animation-name: von-links; animation-delay: 0.2s; }
+html.js .kreuz.in .balken.rechts { animation-name: von-rechts; animation-delay: 0.3s; }
+@keyframes von-oben { from { opacity: 0; transform: translateY(-14px); } to { opacity: 1; transform: none; } }
+@keyframes von-unten { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes von-links { from { opacity: 0; transform: translateX(-14px); } to { opacity: 1; transform: none; } }
+@keyframes von-rechts { from { opacity: 0; transform: translateX(14px); } to { opacity: 1; transform: none; } }
+html.js .mitte svg rect { transform-origin: 32px 32px; animation: mitte 0.7s ease 0.35s both; }
+@keyframes mitte { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  html.js .reveal, html.js .kreuz .balken { opacity: 1; transform: none; }
+  html.js .reveal.in .karten > .karte, html.js .reveal.in .personen > .person, html.js .reveal.in .schritt, html.js .kreuz.in .balken, html.js .hero-foto, html.js .hero-rot, html.js .hero-grau, html.js .mitte svg rect { animation: none; }
+  .karte:hover, .btn:hover, .person:hover img, .balken:hover, .feld:hover { transform: none; }
+}
+
+/* ===== Anleitung (Schritt für Schritt) ===== */
+.schritt { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem 2.5rem; align-items: center; padding: 2rem 0; border-top: 1px solid var(--linie); }
+.schritt:first-of-type { border-top: 0; }
+.schritt .nummer { display: inline-grid; place-items: center; width: 3.4rem; height: 3.4rem; border-radius: 50%; background: var(--rot); color: #fff; font-family: var(--serif); font-size: 1.8rem; font-weight: 600; margin-bottom: 0.8rem; }
+.schritt h3 { font-family: var(--serif); font-size: 1.5rem; font-weight: 600; margin-bottom: 0.4em; }
+.schritt p { font-size: 1.08rem; }
+.schritt figure { margin: 0; }
+.schritt img { border-radius: 16px; border: 1px solid var(--linie); box-shadow: 0 10px 26px rgba(43,43,42,0.10); background: #fff; width: 100%; max-width: 420px; margin-inline: auto; }
+.schritt figcaption { font-size: 0.85rem; color: var(--text-leise); text-align: center; margin-top: 0.5rem; }
+.schritt:nth-of-type(even) figure { order: -1; }
+@media (max-width: 760px) { .schritt { grid-template-columns: 1fr; } .schritt:nth-of-type(even) figure { order: 0; } .schritt img { max-width: 330px; } }
+.anleitung-nav { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 0 0 1rem; padding: 0; list-style: none; }
+.anleitung-nav a { display: inline-block; background: var(--weiss); border: 2px solid var(--linie); border-radius: 999px; padding: 0.5em 1em; text-decoration: none; color: var(--text); font-weight: 600; transition: border-color 0.25s ease, color 0.25s ease; }
+.anleitung-nav a:hover { border-color: var(--rot); color: var(--rot-text); }
+.quelle { font-size: 0.85rem; color: var(--text-leise); border-top: 1px solid var(--linie); padding-top: 1rem; margin-top: 2rem; }

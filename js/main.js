@@ -147,4 +147,16 @@
       form.hidden = true;
     });
   })(forms[f]);
+
+  /* Sanftes Einblenden beim Scrollen (ruhig, einmalig, achtet prefers-reduced-motion) */
+  var reduziert = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var secs = document.querySelectorAll("main > section:not(.hero2), .kreuz");
+  for (var q = 0; q < secs.length; q++) if (!secs[q].classList.contains("kreuz")) secs[q].classList.add("reveal");
+  if (reduziert || !("IntersectionObserver" in window)) { for (var q2 = 0; q2 < secs.length; q2++) secs[q2].classList.add("in"); }
+  else {
+    var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }); }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
+    for (var q3 = 0; q3 < secs.length; q3++) io.observe(secs[q3]);
+    /* Sicherheitsnetz: spätestens nach 2,5 s ist alles sichtbar, auch ohne Scrollen */
+    setTimeout(function () { for (var q4 = 0; q4 < secs.length; q4++) secs[q4].classList.add("in"); }, 2500);
+  }
 })();

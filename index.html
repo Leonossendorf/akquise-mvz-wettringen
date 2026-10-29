@@ -20,6 +20,7 @@
   <a class="notfall" href="notfall.html">Notfall <span>112</span> Bereitschaftsdienst <span>116 117</span></a>
   <div class="werkzeuge">
     <button type="button" id="btn-schrift" aria-pressed="false"><span class="big" aria-hidden="true">A</span> Schrift größer</button>
+    <a href="hilfe.html">Anleitungen</a>
     <a href="leichte-sprache.html">Leichte Sprache</a>
     <a href="karriere.html">Karriere</a>
   </div>
@@ -35,28 +36,29 @@
 </div></div>
 </header>
 <main id="inhalt">
-<section class="hero" aria-labelledby="h1">
-  <div class="wrap">
-    <div>
+<section class="hero2" aria-labelledby="h1">
+  <div class="wrap hero-grid">
+    <figure class="hero-foto">
+      <img src="img/empfang-weit.jpg" srcset="img/empfang-weit-900.jpg 900w, img/empfang-weit.jpg 1600w" sizes="(max-width: 980px) 100vw, 66vw" width="1600" height="780" alt="Der Empfang des MVZ Wettringen: ein runder, heller Tresen mit Holzboden, dahinter zwei Mitarbeiterinnen in Bordeaux" fetchpriority="high">
+    </figure>
+    <div class="hero-rot">
       <p class="ueberzeile">Gnoiener Platz 2 · Wettringen</p>
-      <h1 id="h1">Ihr kommunales Hausarztzentrum in Wettringen</h1>
+      <h1 id="h1">Ihr kommunales <em>Hausarztzentrum</em> in Wettringen</h1>
       <p class="lead">Fünf Ärztinnen und Ärzte für Allgemeinmedizin und Innere Medizin, ein eingespieltes Praxisteam, ein Haus am Gnoiener Platz.</p>
+    </div>
+    <aside class="hero-grau" aria-label="Heute und die wichtigsten Wege">
+      <h2>Heute</h2>
       <div class="status zu" id="status" aria-live="polite">
         <span class="punkt" aria-hidden="true"></span>
         <p class="zustand" id="status-zustand">Sprechzeiten</p>
         <p id="status-text"><span data-zeiten-kurz>Mo–Fr 7:30–12:00 Uhr, Mo, Di, Do 14:30–18:00 Uhr</span></p>
       </div>
-    </div>
-    <figure>
-      <img src="img/empfang-weit.jpg" srcset="img/empfang-weit-900.jpg 900w, img/empfang-weit.jpg 1600w" sizes="(max-width: 860px) 100vw, 50vw" width="1600" height="780" alt="Der Empfang des MVZ Wettringen: ein runder, heller Tresen mit Holzboden, dahinter zwei Mitarbeiterinnen in Bordeaux" fetchpriority="high">
-    </figure>
-  </div>
-  <div class="wrap">
-    <div class="felder">
-      <a class="feld" href="sprechzeiten.html"><strong>Sprechzeiten</strong><span>Mo–Fr vormittags, Mo, Di, Do nachmittags</span></a>
-      <a class="feld" href="termin-rezept.html"><strong>Termin &amp; Rezept</strong><span>Am schnellsten über medflex, ohne Warteschleife</span></a>
-      <a class="feld" href="sprechzeiten.html#anfahrt"><strong>Anfahrt</strong><span>Gnoiener Platz 2, 48493 Wettringen</span></a>
-    </div>
+      <div class="felder">
+        <a class="feld" href="sprechzeiten.html"><strong>Sprechzeiten</strong><span>Mo–Fr vormittags, Mo, Di, Do nachmittags</span></a>
+        <a class="feld" href="termin-rezept.html"><strong>Termin &amp; Rezept</strong><span>Über medflex, ohne Warteschleife</span></a>
+        <a class="feld" href="hilfe.html"><strong>Schritt für Schritt</strong><span>medflex und Telefon, mit Bildern erklärt</span></a>
+      </div>
+    </aside>
   </div>
 </section>
 
@@ -65,7 +67,7 @@
     <h2 id="h-wege">Wohin möchten Sie?</h2>
     <p class="leise">Vier Wege, einer passt. Das Kreuz aus unserem Logo zeigt ihn.</p>
     <div class="kreuz">
-      <a class="balken oben grau" href="termin-rezept.html"><strong>Termin &amp; Rezept</strong><span>Termine, Folgerezepte und Überweisungen über medflex oder telefonisch.</span></a>
+      <a class="balken oben grau" href="termin-rezept.html"><strong>Termin &amp; Rezept</strong><span>Über medflex oder telefonisch. Mit Anleitung in Bildern.</span></a>
       <a class="balken links" href="neu-bei-uns.html"><strong>Neu bei uns</strong><span>Was Sie zum ersten Besuch mitbringen.</span></a>
       <div class="mitte" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="22" y="2" width="20" height="40" rx="10" fill="#9e9e9e"/><rect x="22" y="22" width="40" height="20" rx="10" fill="#9e9e9e"/><rect x="2" y="22" width="40" height="20" rx="10" fill="#b72c46" opacity=".92"/><rect x="22" y="22" width="20" height="40" rx="10" fill="#b72c46" opacity=".92"/></svg></div>
       <a class="balken rechts grau" href="sprechzeiten.html"><strong>Sprechzeiten</strong><span>Wann wir für Sie da sind, Telefon und Anfahrt.</span></a>
@@ -197,6 +199,7 @@
     <div>
       <h2>Weitere Seiten</h2>
       <ul>
+        <li><a href="hilfe.html">Anleitungen: medflex und Telefon</a></li>
         <li><a href="notfall.html">Notfall und Bereitschaftsdienst</a></li>
         <li><a href="neu-bei-uns.html">Neu bei uns</a></li>
         <li><a href="diabetes.html">Diabetesversorgung</a></li>
