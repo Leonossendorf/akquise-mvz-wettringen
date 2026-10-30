@@ -176,7 +176,7 @@ hr { border: 0; border-top: 1px solid var(--linie); margin: 2rem 0; }
 .abschnitt.dunkel h2, .abschnitt.dunkel h3, .abschnitt.dunkel a { color: #fff; }
 .kopfzeile { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
 .kopfzeile h2 { margin: 0; }
-.karten { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+.karten { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; }
 .karte { background: var(--weiss); border: 1px solid var(--linie); border-radius: var(--radius); padding: 1.2rem 1.3rem; }
 .karte h3 { margin-top: 0; }
 .karte p:last-child { margin-bottom: 0; }
