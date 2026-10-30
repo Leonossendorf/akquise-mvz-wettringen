@@ -86,6 +86,42 @@
     }
   }
 
+  /* Wegweiser: Das Kreuz dreht sich dem gewählten Weg und dem Mauszeiger zu */
+  var kreuz = document.querySelector(".kreuz"), koerper = document.querySelector(".k3d-koerper"), mitteFeld = document.querySelector(".mitte");
+  if (kreuz && koerper) {
+    var rx = 0, ry = 0, zx = 0, zy = 0, kreuzLaeuft = false;
+    var ZIELE = { oben: [-26, 0], unten: [26, 0], links: [0, 26], rechts: [0, -26] };
+    var ruhig = function () { return html.classList.contains("bf-ruhig") || (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches); };
+    var kreuzSetzen = function () { koerper.style.setProperty("--rx", rx.toFixed(2) + "deg"); koerper.style.setProperty("--ry", ry.toFixed(2) + "deg"); };
+    var kreuzSchritt = function () {
+      rx += (zx - rx) * 0.13; ry += (zy - ry) * 0.13;
+      kreuzSetzen();
+      if (Math.abs(zx - rx) > 0.03 || Math.abs(zy - ry) > 0.03) requestAnimationFrame(kreuzSchritt);
+      else { rx = zx; ry = zy; kreuzSetzen(); kreuzLaeuft = false; }
+    };
+    var kreuzLos = function () {
+      if (ruhig()) { rx = ry = zx = zy = 0; kreuzSetzen(); return; }
+      if (!kreuzLaeuft) { kreuzLaeuft = true; requestAnimationFrame(kreuzSchritt); }
+    };
+    Object.keys(ZIELE).forEach(function (name) {
+      var feld = kreuz.querySelector(".balken." + name);
+      if (!feld) return;
+      var an = function () { kreuz.setAttribute("data-ziel", name); zx = ZIELE[name][0]; zy = ZIELE[name][1]; kreuzLos(); };
+      var aus = function () { kreuz.removeAttribute("data-ziel"); zx = zy = 0; kreuzLos(); };
+      feld.addEventListener("pointerenter", an); feld.addEventListener("pointerleave", aus);
+      feld.addEventListener("focus", an); feld.addEventListener("blur", aus);
+    });
+    var wege = kreuz.closest(".wege") || kreuz;
+    wege.addEventListener("pointermove", function (e) {
+      if (e.pointerType !== "mouse" || kreuz.hasAttribute("data-ziel") || !mitteFeld) return;
+      var r = mitteFeld.getBoundingClientRect();
+      zx = Math.max(-1, Math.min(1, (e.clientY - r.top - r.height / 2) / 320)) * 12;
+      zy = -Math.max(-1, Math.min(1, (e.clientX - r.left - r.width / 2) / 420)) * 14;
+      kreuzLos();
+    });
+    wege.addEventListener("pointerleave", function () { if (!kreuz.hasAttribute("data-ziel")) { zx = zy = 0; kreuzLos(); } });
+  }
+
   /* Menü auf dem Handy */
   var tog = document.querySelector(".nav-toggle"), nav = document.getElementById("hauptmenue");
   if (tog && nav) tog.addEventListener("click", function () { var o = nav.classList.toggle("offen"); tog.setAttribute("aria-expanded", o ? "true" : "false"); });
