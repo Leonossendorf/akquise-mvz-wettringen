@@ -10,27 +10,43 @@
 <link rel="preload" href="fonts/source-serif-4-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/style.css">
 <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
-<script>(function(){var c=document.documentElement.classList;c.add("js");try{var f=localStorage.getItem("mvz-fs");if(f)c.add("fs-"+f);}catch(e){}})();</script>
+<script>(function(){var c=document.documentElement.classList;c.add("js");try{var f=localStorage.getItem("mvz-fs");if(f)c.add("fs-"+f);var b=localStorage.getItem("mvz-bf");if(b)b.split(",").forEach(function(n){c.add("bf-"+n);});}catch(e){}})();</script>
 </head>
 <body>
 <a class="skip" href="#inhalt">Zum Inhalt springen</a>
 <header>
-<div class="topbar"><div class="wrap">
-  <a class="notfall" href="notfall.html">Notfall <span>112</span> Bereitschaftsdienst <span>116 117</span></a>
-  <div class="werkzeuge">
-    <a class="tel" href="tel:+492557377"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1L6.6 10.8z" fill="currentColor"/></svg>02557 377</a>
-    <a href="leichte-sprache.html">Leichte Sprache</a>
-    <button type="button" id="btn-schrift" aria-pressed="false"><span class="big" aria-hidden="true">A</span> Schrift größer</button>
-  </div>
-</div></div>
 <div class="site-header"><div class="wrap">
   <a class="brand" href="index.html"><img src="img/logo.svg" width="294" height="119" alt="MVZ Wettringen, medizinisches Versorgungszentrum Wettringen – zur Startseite"></a>
-  <nav class="site-nav" id="hauptmenue" aria-label="Hauptmenü"><ul><li><a href="index.html">Start</a></li><li><a href="sprechzeiten.html">Sprechzeiten</a></li><li><a href="termin-rezept.html">Termin &amp; Rezept</a></li><li><a href="hilfe.html">Anleitungen</a></li><li><a href="leistungen.html">Leistungen</a></li><li><a href="team.html">Team</a></li><li><a href="karriere.html">Karriere</a></li><li><a href="ueber-uns.html" aria-current="page">Über uns</a></li></ul></nav>
+  <div class="bf">
+    <button type="button" class="bf-knopf" id="bf-knopf" aria-expanded="false" aria-controls="bf-menue"><svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><circle cx="24" cy="24" r="24" fill="#174a8b"/><circle cx="24" cy="11.5" r="4.2" fill="#fff"/><path d="M11 17.6c8.2 2.4 17.8 2.4 26 0l1 3.6c-3.9 1.2-7.9 1.9-11.8 2.1v5l3.4 13.4-3.6.9-3.3-12.4h-1.4l-3.3 12.4-3.6-.9 3.4-13.4v-5c-3.9-.2-7.9-.9-11.8-2.1z" fill="#fff"/></svg><span class="bf-wort">Barrierefreiheit</span></button>
+    <div class="bf-menue" id="bf-menue" role="group" aria-labelledby="bf-titel" hidden>
+      <p class="bf-titel" id="bf-titel">Barrierefreiheit</p>
+      <p class="bf-name" id="bf-schrift">Schriftgröße</p>
+      <div class="bf-wahl" role="group" aria-labelledby="bf-schrift">
+        <button type="button" data-fs="0" aria-pressed="true">Normal</button>
+        <button type="button" data-fs="1" aria-pressed="false">Groß</button>
+        <button type="button" data-fs="2" aria-pressed="false">Sehr groß</button>
+      </div>
+      <div class="bf-schalter">
+        <button type="button" data-bf="kontrast" aria-pressed="false">Starker Kontrast</button>
+        <button type="button" data-bf="zeilen" aria-pressed="false">Mehr Zeilenabstand</button>
+        <button type="button" data-bf="links" aria-pressed="false">Links hervorheben</button>
+        <button type="button" data-bf="ruhig" aria-pressed="false">Bewegungen aus</button>
+        <button type="button" id="bf-vorlesen" aria-pressed="false" hidden>Seite vorlesen</button>
+      </div>
+      <ul class="bf-verweise">
+        <li><a href="leichte-sprache.html">Leichte Sprache</a></li>
+        <li><a href="barrierefreiheit.html">Erklärung zur Barrierefreiheit</a></li>
+      </ul>
+      <button type="button" class="bf-zurueck" id="bf-zurueck">Alles zurücksetzen</button>
+    </div>
+  </div>
+  <button class="nav-toggle" aria-expanded="false" aria-controls="hauptmenue">Menü</button>
   <div class="aktionen">
     <a class="btn zweit" href="tel:+492557377"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1L6.6 10.8z" fill="currentColor"/></svg>02557 377</a>
     <a class="btn" href="https://arzt.medflex.de/kontakt/hausaerztliche-versorgung-diabetologische-schwerpunktpraxis/wettringen/wettringen-mvz/v9qqqz" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 4h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H9l-5 4V5a1 1 0 0 1 1-1z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>Nachricht über medflex</a>
   </div>
-  <button class="nav-toggle" aria-expanded="false" aria-controls="hauptmenue">Menü</button>
+  <nav class="site-nav" id="hauptmenue" aria-label="Hauptmenü"><ul><li><a href="index.html">Start</a></li><li><a href="sprechzeiten.html">Sprechzeiten</a></li><li><a href="termin-rezept.html">Termin &amp; Rezept</a></li><li><a href="hilfe.html">Anleitungen</a></li><li><a href="leistungen.html">Leistungen</a></li><li><a href="team.html">Team</a></li><li><a href="karriere.html">Karriere</a></li><li><a href="ueber-uns.html" aria-current="page">Über uns</a></li></ul></nav>
 </div></div>
 </header>
 <main id="inhalt">
@@ -81,6 +97,7 @@
         <li><a href="hilfe.html">Anleitungen: medflex und Telefon</a></li>
         <li><a href="notfall.html">Notfall und Bereitschaftsdienst</a></li>
         <li><a href="neu-bei-uns.html">Neu bei uns</a></li>
+        <li><a href="neuenkirchen.html">Patienten aus Neuenkirchen</a></li>
         <li><a href="diabetes.html">Diabetesversorgung</a></li>
         <li><a href="aktuelles.html">Aktuelles</a></li>
         <li><a href="leichte-sprache.html">Leichte Sprache</a></li>

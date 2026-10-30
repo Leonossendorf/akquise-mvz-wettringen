@@ -4,19 +4,86 @@
   var html = document.documentElement, D = window.MVZ || {};
   html.classList.add("js");
 
-  /* Schriftgröße merken */
+  /* Einstellungen für Barrierefreiheit merken */
   function pref(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
   function setPref(k, v) { try { if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) {} }
-  var fsBtn = document.getElementById("btn-schrift");
-  if (fsBtn) {
-    var sync = function () { fsBtn.setAttribute("aria-pressed", html.classList.contains("fs-1") || html.classList.contains("fs-2") ? "true" : "false"); };
-    fsBtn.addEventListener("click", function () {
-      if (html.classList.contains("fs-2")) { html.classList.remove("fs-2"); setPref("mvz-fs", null); }
-      else if (html.classList.contains("fs-1")) { html.classList.remove("fs-1"); html.classList.add("fs-2"); setPref("mvz-fs", "2"); }
-      else { html.classList.add("fs-1"); setPref("mvz-fs", "1"); }
-      sync();
+  var bfKnopf = document.getElementById("bf-knopf"), bfMenue = document.getElementById("bf-menue");
+  if (bfKnopf && bfMenue) {
+    var fsKnoepfe = bfMenue.querySelectorAll("[data-fs]"), schalter = bfMenue.querySelectorAll("[data-bf]");
+    var vorlesen = document.getElementById("bf-vorlesen"), ss = window.speechSynthesis, stimme = null;
+    var bfOffen = function (an, fokus) {
+      bfMenue.hidden = !an;
+      bfKnopf.setAttribute("aria-expanded", an ? "true" : "false");
+      if (!an && fokus) bfKnopf.focus();
+    };
+    var fsSetzen = function (n) {
+      html.classList.remove("fs-1", "fs-2");
+      if (n) html.classList.add("fs-" + n);
+      setPref("mvz-fs", n || null);
+      fsAnzeigen();
+    };
+    var fsAnzeigen = function () {
+      var n = html.classList.contains("fs-2") ? "2" : (html.classList.contains("fs-1") ? "1" : "0");
+      for (var i = 0; i < fsKnoepfe.length; i++) fsKnoepfe[i].setAttribute("aria-pressed", fsKnoepfe[i].getAttribute("data-fs") === n ? "true" : "false");
+    };
+    var schalterAnzeigen = function () {
+      var an = [];
+      for (var i = 0; i < schalter.length; i++) {
+        var name = schalter[i].getAttribute("data-bf"), ist = html.classList.contains("bf-" + name);
+        schalter[i].setAttribute("aria-pressed", ist ? "true" : "false");
+        if (ist) an.push(name);
+      }
+      setPref("mvz-bf", an.length ? an.join(",") : null);
+    };
+    var vorleseStopp = function () {
+      if (!vorlesen || !ss) return;
+      ss.cancel();
+      vorlesen.setAttribute("aria-pressed", "false");
+      vorlesen.textContent = "Seite vorlesen";
+    };
+    Array.prototype.forEach.call(fsKnoepfe, function (b) {
+      b.addEventListener("click", function () { var n = b.getAttribute("data-fs"); fsSetzen(n === "0" ? "" : n); });
     });
-    sync();
+    Array.prototype.forEach.call(schalter, function (b) {
+      b.addEventListener("click", function () { html.classList.toggle("bf-" + b.getAttribute("data-bf")); schalterAnzeigen(); });
+    });
+    bfKnopf.addEventListener("click", function () { bfOffen(bfMenue.hidden); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !bfMenue.hidden) bfOffen(false, true); });
+    document.addEventListener("click", function (e) { if (!bfMenue.hidden && !bfMenue.contains(e.target) && !bfKnopf.contains(e.target)) bfOffen(false); });
+    document.getElementById("bf-zurueck").addEventListener("click", function () {
+      Array.prototype.forEach.call(schalter, function (b) { html.classList.remove("bf-" + b.getAttribute("data-bf")); });
+      fsSetzen("");
+      schalterAnzeigen();
+      vorleseStopp();
+    });
+    fsAnzeigen();
+    schalterAnzeigen();
+
+    /* Vorlesen nur mit einer deutschen Stimme auf dem Gerät, damit kein Text an fremde Dienste geht */
+    if (vorlesen && ss && window.SpeechSynthesisUtterance) {
+      var stimmeSuchen = function () {
+        stimme = ss.getVoices().filter(function (s) { return /^de/i.test(s.lang) && s.localService; })[0] || null;
+        vorlesen.hidden = !stimme;
+      };
+      stimmeSuchen();
+      if (ss.addEventListener) ss.addEventListener("voiceschanged", stimmeSuchen);
+      vorlesen.addEventListener("click", function () {
+        if (vorlesen.getAttribute("aria-pressed") === "true") { vorleseStopp(); return; }
+        var teile = Array.prototype.filter.call(document.querySelectorAll("main h1, main h2, main h3, main p, main li, main figcaption, main th, main td"), function (el) {
+          return el.offsetParent !== null && el.textContent.trim() && !el.closest(".pfad") && !(el.parentElement && el.parentElement.closest("li, td, th, p"));
+        });
+        if (!teile.length) return;
+        vorlesen.setAttribute("aria-pressed", "true");
+        vorlesen.textContent = "Vorlesen stoppen";
+        teile.forEach(function (el, i) {
+          var u = new SpeechSynthesisUtterance(el.textContent.replace(/\s+/g, " ").trim());
+          u.voice = stimme; u.lang = stimme.lang; u.rate = 0.95;
+          if (i === teile.length - 1) u.onend = vorleseStopp;
+          ss.speak(u);
+        });
+      });
+      window.addEventListener("pagehide", vorleseStopp);
+    }
   }
 
   /* Menü auf dem Handy */
@@ -61,8 +128,10 @@
     if (!box || !st || !tx) return;
     var s = iso(now), u = schliessungAm(s), n = naechsteOeffnung(now), nt = "";
     if (n) nt = (n.heute ? "heute" : (n.tag.getTime() - now.getTime() < 6 * 864e5 ? "am " + TAGE[n.tag.getDay()] : "am " + fmtDatum(iso(n.tag)))) + " ab " + fmtZeit(n.h, n.m) + " Uhr";
+    var hilfe = document.getElementById("status-hilfe");
     box.classList.remove("offen", "zu");
-    if (u) { box.classList.add("zu"); st.textContent = "Geschlossen bis " + fmtDatum(u[1]); tx.textContent = (u[2] ? u[2] + " " : "") + (n ? "Wir sind " + nt + " wieder für Sie da." : ""); return; }
+    if (hilfe) hilfe.hidden = true;
+    if (u) { if (hilfe) hilfe.hidden = false; box.classList.add("zu"); st.textContent = "Geschlossen bis " + fmtDatum(u[1]); tx.textContent = (u[2] ? u[2] + " " : "") + (n ? "Wir sind " + nt + " wieder für Sie da." : ""); return; }
     var z = geschlossenAm(now) ? [] : zeitenAm(now), min = now.getHours() * 60 + now.getMinutes();
     for (var k = 0; k < z.length; k++) {
       var a = z[k][0] * 60 + z[k][1], b = z[k][2] * 60 + z[k][3];
@@ -72,6 +141,7 @@
         return;
       }
     }
+    if (hilfe) hilfe.hidden = false;
     box.classList.add("zu"); st.textContent = "Zurzeit geschlossen";
     tx.textContent = n ? "Wir sind " + nt + " wieder für Sie da." : "Bitte beachten Sie die Sprechzeiten.";
   }
